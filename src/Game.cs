@@ -30,8 +30,23 @@ public class Game
         public string playerName {get; set;}
 
         public Player(string playerName)
-        {}
+        {
+            this.playerName = playerName;
+        }
+
+        private static List<Player> CreatePlayers()
+        {
+            List<Player> players = new List<Player>();
+            for(int i = 0; i < NUMBER_OF_PLAYERS; i++){
+                Player player1 = new Player("player1");
+                Players.Add(player1);
+                Player player2 = new Player("player2");
+                Players.Add(player2);
+            }
+            return Players;
+        }
     }
+    
     
 
 
@@ -46,17 +61,6 @@ public class Game
     }
     
 
-    private static List<Player> CreatePlayers()
-    {
-        List<Player> players = new List<Player>();
-        for(int i = 0; i < NUMBER_OF_PLAYERS; i++){
-            Player player1 = new Player("player1");
-            Players.Add(player1);
-            Player player2 = new Player("player2");
-            Players.Add(player2);
-        }
-        return Players;
-    }
 
 
 
@@ -69,7 +73,7 @@ public class Game
             PauseForUserInput("Press any key to continue");
         }
 
-            public static bool arePlayersReady()
+        public static bool arePlayersReady()
         {
             PauseForUserInput("Player 1 press any key");
             Console.WriteLine("Thank you player1, player1 is ready");
@@ -81,12 +85,12 @@ public class Game
         public static void PauseForUserInput(string prompt)
         {
             Console.WriteLine(prompt);
-            Console.ReadKey();
+            Console.ReadKey(true);
             // int x = CaptureNumber("this is a user comptentency test, enter a number...");
             // Console.WriteLine("the value entered is {0}", x);
         }
 
-            static int CaptureNumber(string prompt){
+        static int CaptureNumber(string prompt){
             Console.WriteLine(prompt);
             int output;
             while(!Int32.TryParse(Console.ReadLine(), out output)){
@@ -94,6 +98,14 @@ public class Game
             }
             return output;
         }
-    }
+        
 
+        public static void placeShips()
+        {
+            PauseForUserInput("Now it's time to place our battleships, Be Strategic!!, Player1 you are up first, place any key to continue");
+            Console.WriteLine("Enter coordinates when prompted"); 
+
+        }
+
+    }
 }    
