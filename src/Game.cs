@@ -21,14 +21,17 @@ public class Game
         View.Welcome();
         View.arePlayersReady();
 
-        Gameboard.CreateGrid();
+        Gameboard.CreateCoordsList();
+        Gameboard.PrintGrid();
         List<Player> gamePlayers = Game.CreatePlayers();
         for (int i = 0; i < gamePlayers.Count; i++)
         {
             //players will have the same cooridates for their ships
             gamePlayers[i].playerShips = Game.createShips();
             View.displayShipInfo(gamePlayers[i].playerShips);
+            
         }
+            View.validateCoordinateEntry(View.CaptureNumber("Enter input here..."));
     }
 
 
@@ -69,14 +72,41 @@ public class Game
             };
         theShips.Add(new Ship("Carrier", 5, carrierCoordinates));
 
+        List<Coordinates> bomberCoordinates = new List<Coordinates>{
+               new Coordinates(1, 9),
+               new Coordinates(2, 9),
+               new Coordinates(3, 9),
+               new Coordinates(4, 9)
+        };
+        theShips.Add(new Ship("Bomber", 4, bomberCoordinates));
 
+        List<Coordinates> submarineCoordinates = new List<Coordinates>{
+            new Coordinates(4, 6),
+            new Coordinates(4, 7),
+            new Coordinates(4, 8),   
+        };
+        theShips.Add(new Ship("Submarine", 3, submarineCoordinates));
+
+        List<Coordinates> cruiserCoordinates = new List<Coordinates>{
+            new Coordinates(7, 2),
+            new Coordinates(7, 3),
+            new Coordinates(7, 4)
+        };
+        theShips.Add(new Ship("Cruiser", 3, cruiserCoordinates));
+
+        List<Coordinates> destroyerCoordinates = new List<Coordinates>{
+            new Coordinates(8, 6),
+            new Coordinates(9, 6)
+        };
+        theShips.Add(new Ship("Destroyer", 2, destroyerCoordinates));
+        
 
 
         //old functionality
-        theShips.Add(new Ship { shipName = "Bomber", shipSize = 4 });
-        theShips.Add(new Ship { shipName = "Submarine", shipSize = 3 });
-        theShips.Add(new Ship { shipName = "Cruiser", shipSize = 3 });
-        theShips.Add(new Ship { shipName = "Destroyer", shipSize = 2 });
+        // theShips.Add(new Ship { shipName = "Bomber", shipSize = 4 });
+        // theShips.Add(new Ship { shipName = "Submarine", shipSize = 3 });
+        // theShips.Add(new Ship { shipName = "Cruiser", shipSize = 3 });
+        // theShips.Add(new Ship { shipName = "Destroyer", shipSize = 2 });
 
         return theShips;
     }
@@ -118,12 +148,14 @@ public class Game
         public static void PauseForUserInput(string prompt)
         {
             Console.WriteLine(prompt);
+    
             Console.ReadKey(true);
-            // int x = CaptureNumber("this is a user comptentency test, enter a number...");
-            // Console.WriteLine("the value entered is {0}", x);
+            
+    
+            
         }
 
-        static int CaptureNumber(string prompt)
+        public static int CaptureNumber(string prompt)
         {
             Console.WriteLine(prompt);
             int output;
@@ -144,7 +176,22 @@ public class Game
             }
         }
 
+        public static bool validateCoordinateEntry(int guessRange)
+        {
+            int userCoordInput = CaptureNumber("Enter your coordinate now...");
+            userCoordInput = guessRange;
+            if(guessRange <101 && guessRange > 0)
+            {   
 
+                Console.WriteLine("You selected the following coordinate", CreateCoordsList().ContainsValue(guessRange));
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Sorry, that input is not acceptable, enter a number between 1 - 100");
+            }
+            return false;
+        }
 
         public void placeShips()
         {
